@@ -31,6 +31,7 @@ PACKET_SIZE_BYTES = 64
 STANDARD_TIMEOUT_MS = 100
 PARAMETER_SET_DELAY_S = 0.1
 MAX_PACKETS_IN_FRAME = 124
+MAX_SPECTRA_MEMORIES = 64
 REMAINING_PACKETS_ERROR = 250
 NUM_OF_PIXELS_IN_PACKET = 30
 FLASH_ERASE_TIMEOUT_MS = 5000
@@ -475,6 +476,9 @@ class LR1:
         )
 
     def get_raw_frame(self, buffer_index: int = 0, offset: int = 0) -> list:
+        if buffer_index >= MAX_SPECTRA_MEMORIES:
+            raise ValueError(f"buffer_index limited to {MAX_SPECTRA_MEMORIES}")
+
         LOGGER.debug(f"Reading Frame from index {buffer_index}")
         pixels_in_frame = self.frame_format.pixels_in_frame
         packets_to_get = int(math.ceil(pixels_in_frame / NUM_OF_PIXELS_IN_PACKET))
