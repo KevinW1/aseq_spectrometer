@@ -676,8 +676,8 @@ class LR1:
             exp_time = exposure time in 10s of uS.
             irr_scaler = correction coefficient from the calibration file
         """
-        return np.multiply(raw_spectra, self.calibration.irr_norm) / (
-            self.calibration.prnu_norm
+        return np.multiply(raw_spectra, self.calibration.irr_norm[..., None]) / (
+            self.calibration.prnu_norm[..., None]
             * self.calibration.irr_scaler
             * (self.parameters.exposure_time_ms * 100)  # converted to 10s of uS
         )
